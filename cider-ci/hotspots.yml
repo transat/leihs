@@ -2,16 +2,8 @@
 name: Leihs
 traits: "substitute_with_path: cider-ci/partials/traits.yml"
 attachments: "substitute_with_path: cider-ci/partials/attachments.yml"
-
-environment_variables: 
-  TERM: vt100
-  RAILS_ENV: test
-
-ports:
-  xvnc_port: 
-    inet_address: "localhost"
-    min: 5900
-    max: 5999
+environment_variables: "substitute_with_path: cider-ci/partials/environment_variables.yml"
+ports: "substitute_with_path: cider-ci/partials/ports.yml"
 
 contexts:
 
@@ -19,38 +11,9 @@ contexts:
   priority: 7
   tasks: "substitute_with_path: cider-ci/tasks/meta.yml"
 
-
-- name: cucumber features 
+- name: Cucumber 
   priority: 5
-  scripts:
-    bundle: 
-      timeout: 500
-      order: 1
-      type: prepare_executor
-      body: bundle
-    configer_db:
-      order: 2
-      body: cider-ci/bin/create_db_config_file.rb
-    setup_database:
-      order: 3
-      body: bundle exec rake db:reset 
-    setup_madek:
-      order: 4
-      body: bundle exec rake madek:setup:dirs 
-    startx:
-      order: 4
-      body: tightvncserver ":$XVNC_PORT"  -geometry 1024x768 -rfbport "$XVNC_PORT" -interface 127.0.0.1
-    cucumber: 
-      order: 5
-      body: export DISPLAY=":$XVNC_PORT"
-    drop_test_db: 
-      order: 8
-      type: post_process
-      body: bundle exec rake db:drop
-    stopx: 
-      order: 9
-      type: post_process
-      body: tightvncserver -kill ":$XVNC_PORT" -clean
+  scripts: "substitute_with_path: cider-ci/partials/cucumber_context_scripts.yml"
   tasks: 
   - name: acknowledge
     scripts:
@@ -58,37 +21,12 @@ contexts:
         timeout: 600
         body: bundle exec cucumber -p default "features/acknowledge.feature"
 
-
 - name: Rspec 
-
   priority: 3
-
-  scripts:
-    bundle: 
-      timeout: 500
-      order: 1
-      type: prepare_executor
-      body: bundle
-    configer_db:
-      order: 2
-      body: cider-ci/bin/create_db_config_file.rb
-    setup_database:
-      order: 3
-      body: bundle exec rake db:reset 
-    setup_madek:
-      order: 4
-      body: bundle exec rake madek:setup:dirs 
-    rspec:
-      order: 5
-    drop_test_db: 
-      order: 8
-      type: post_process
-      body: bundle exec rake db:drop
-
+  scripts: "substitute_with_path: cider-ci/partials/rspec_context_scripts.yml"
   tasks: 
   - name: controllers hslu_ldap_controller
     scripts:
       rspec:
         body: bundle exec rspec "spec/controllers/hslu_ldap_controller_spec.rb"
   
-
