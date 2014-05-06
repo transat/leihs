@@ -15,5 +15,3 @@ drop_test_db:
   order: 8
   type: post_process
   body: bundle exec rake db:drop
-
-
