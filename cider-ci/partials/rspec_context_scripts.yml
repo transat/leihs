@@ -8,7 +8,7 @@ configer_db:
   body: cider-ci/bin/create_db_config_file.rb
 setup_database:
   order: 3
-  body: bundle exec rake db:reset 
+  body: bundle exec rake db:create db:migrate
 setup_madek:
   order: 4
   body: bundle exec rake madek:setup:dirs 
