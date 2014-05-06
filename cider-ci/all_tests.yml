@@ -1,13 +1,7 @@
 ---
-name: Madek
-traits:
-- firefox
-- linux
-- mysql
-- phantomjs
-- rbenv
-- ruby
-- tightvnc
+name: Leihs
+traits: "substitute_with_path: cider-ci/partials/traits.yml"
+
 
 attachments: 
   logs: 

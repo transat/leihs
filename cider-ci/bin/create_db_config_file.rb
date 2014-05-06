@@ -10,9 +10,8 @@ end
 
 config = YAML.load_file("config/database_cider-ci_template.yml")
 config["test"]["database"] = %Q[#{config["test"]["database"]}_#{trial_id}]
-config["test"]["username"] = ENV['PG93_USER']
-config["test"]["password"] = ENV['PG93_PASSWORD']
-config["test"]["port"] = ENV['PG93_PORT']
+config["test"]["username"] = ENV['MYSQL_USER']
+config["test"]["password"] = ENV['MYSQL_PASSWORD']
 
 
 File.delete "config/database.yml" rescue nil
