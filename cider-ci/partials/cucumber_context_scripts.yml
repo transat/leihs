@@ -8,10 +8,7 @@ configer_db:
   body: cider-ci/bin/create_db_config_file.rb
 setup_database:
   order: 3
-  body: bundle exec rake db:reset 
-setup_madek:
-  order: 4
-  body: bundle exec rake madek:setup:dirs 
+  body: bundle exec rake db:create db:reset 
 startx:
   order: 4
   body: tightvncserver ":$XVNC_PORT"  -geometry 1024x768 -rfbport "$XVNC_PORT" -interface 127.0.0.1
