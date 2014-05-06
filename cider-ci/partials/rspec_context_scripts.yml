@@ -9,9 +9,6 @@ configer_db:
 setup_database:
   order: 3
   body: bundle exec rake db:create db:migrate
-setup_madek:
-  order: 4
-  body: bundle exec rake madek:setup:dirs 
 rspec:
   order: 5
 drop_test_db: 
