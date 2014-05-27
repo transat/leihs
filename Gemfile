@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.4'
+gem 'rails', '4.0.5'
 
 gem 'active_hash', '~> 1.3'
 gem 'activerecord-jdbcmysql-adapter', :platform => :jruby
