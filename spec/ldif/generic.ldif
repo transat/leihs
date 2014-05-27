@@ -19,7 +19,6 @@ userpassword: {SHA}nU4eI71bcnBGqeO0t9tXvY1u5oQ=
 mail: ldapmaster@mail.example.org
 objectclass: organizationalPerson
 objectclass: top
-objectclass: person
 objectclass: inetOrgPerson
 sn: Master
 
@@ -32,17 +31,15 @@ description: Test User for leihs
 displayname: Test User
 givenname: Test
 l: Musterstadt
-c: Switzerland
 mail: test@mail.example.org
 # This virtual attribute is NOT supported yet on ApacheDS. Enter
 # it again once it is.
 #memberof: CN=u_all_ad_deny,OU=p_administration,OU=p_group,OU=generic,DC=example,DC=org
 objectclass: top
 objectclass: person
-objectclass: organizationalPerson
 objectclass: inetOrgPerson
-objectclass: country
-pager: L9999
+objectclass: organizationalPerson
+pager: 9999
 postalcode: 9999
 sn: User
 st: Zürich
@@ -59,7 +56,6 @@ description: Admin Test User for leihs
 displayname: Admin Test User
 givenname: Admintest
 l: Musterstadt
-c: Switzerland
 mail: admintest@mail.example.org
 # This virtual attribute is NOT supported yet on ApacheDS. Enter
 # it again once it is.
@@ -68,8 +64,7 @@ objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-objectclass: country
-pager: L9999
+pager: 9999
 postalcode: 9999
 sn: User
 st: Zürich

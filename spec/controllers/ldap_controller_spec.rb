@@ -14,11 +14,18 @@ describe Authenticator::LdapAuthenticationController do
     LeihsFactory.create_default_languages
     Setting::LDAP_CONFIG = File.join(Rails.root, "spec", "LDAP_generic.yml")
 
+    #@server = Ladle::Server.new(
+    #  :port => 12345,
+    #  :ldif => File.join(Rails.root, "spec", "ldif", "generic.ldif"),
+    #  :domain => "dc=example,dc=org"
+    #)
+
     @server = Ladle::Server.new(
       :port => 12345,
-      :ldif => File.join(Rails.root, "spec", "ldif", "generic.ldif"),
-      :domain => "dc=example,dc=org"
+      :ldif => File.join(Rails.root, "spec", "ldif", "generic.ldif")
     )
+
+
     @server.start
   end
 
