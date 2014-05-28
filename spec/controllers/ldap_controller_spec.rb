@@ -23,7 +23,8 @@ describe Authenticator::LdapAuthenticationController do
     @server = Ladle::Server.new(
       :port => 12345,
       :ldif => File.join(Rails.root, "spec", "ldif", "generic.ldif"),
-      :quiet => true
+      :quiet => true,
+      :timeout => 180
     )
 
 
