@@ -27,9 +27,9 @@ contexts:
       java_version:
         body: java -version
         order: 1
-        interpreter: ["bash" "-i"]
+        interpreter: ["bash", "-i"]
       rspec:
         body: bundle exec rspec "spec/controllers/ldap_controller_spec.rb"
-        interpreter: ["bash" "-i"]
+        interpreter: ["bash", "-i"]
 
         
