@@ -22,8 +22,10 @@ contexts:
   - name: controllers ldap_controller
     scripts:
       show_env:
+        order: 1
         body: env | sort
       java_version:
         body: java -version
+        order: 1
       rspec:
         body: bundle exec rspec "spec/controllers/ldap_controller_spec.rb"
