@@ -2,7 +2,7 @@ Given(/^the LDAP authentication system is enabled and configured$/) do
   as = AuthenticationSystem.where(:class_name => "LdapAuthentication").first
   as.is_active = true
   expect(as.save).to be true
-  Setting::LDAP_CONFIG = File.join(Rails.root, "spec", "LDAP_generic.yml")
+  Setting::LDAP_CONFIG = File.join(Rails.root, "features", "data", "LDAP_generic.yml")
 end
 
 When(/^there are some inventory pools with automatic access enabled$/) do

@@ -81,10 +81,10 @@ Before('@ldap') do
   unless File.exist?(ENV['TMPDIR'])
     Dir.mkdir(ENV['TMPDIR'])
   end
-  Setting::LDAP_CONFIG = File.join(Rails.root, "spec", "LDAP_generic.yml")
+  Setting::LDAP_CONFIG = File.join(Rails.root, "features", "data", "LDAP_generic.yml")
   @ldap_server = Ladle::Server.new(
     :port => 12345,
-    :ldif => File.join(Rails.root, "spec", "ldif", "generic.ldif"),
+    :ldif => File.join(Rails.root, "features", "data", "ldif", "generic.ldif"),
     :domain => "dc=example,dc=org"
   )
   @ldap_server.start
