@@ -461,14 +461,14 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/borrow/startseite.feature:10
-- name: Haupt-Kategorien aufklappen - features/borrow/startseite.feature:18
+- name: Haupt-Kategorien aufklappen - features/borrow/startseite.feature:19
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/borrow/startseite.feature:18
-- name: Kinder-Kategorien Dropdown nicht sichtbar - features/borrow/startseite.feature:27
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/borrow/startseite.feature:19
+- name: Kinder-Kategorien Dropdown nicht sichtbar - features/borrow/startseite.feature:28
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/borrow/startseite.feature:27
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/borrow/startseite.feature:28
 - name: Suchfeld - features/borrow/suche.feature:11
   scripts:
     cucumber:
@@ -984,23 +984,28 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:154
-- name: Bei Gegenständen, die in Verträgen vorhanden sind, kann man das Modell nicht
-    ändern - features/examples/gegenstand_editieren.feature:162
+- name: Neuen Lieferanten nicht erstellen falls einer mit gleichem Namen schon vorhanden
+    - features/examples/gegenstand_editieren.feature:162
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:162
-- name: Einen Gegenstand, der ausgeliehen ist, kann man nicht ausmustern - features/examples/gegenstand_editieren.feature:169
+- name: Bei Gegenständen, die in Verträgen vorhanden sind, kann man das Modell nicht
+    ändern - features/examples/gegenstand_editieren.feature:171
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:169
-- name: Einen Gegenstand mit allen Informationen editieren - features/examples/gegenstand_editieren.feature:176
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:171
+- name: Einen Gegenstand, der ausgeliehen ist, kann man nicht ausmustern - features/examples/gegenstand_editieren.feature:178
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:176
-- name: Einen Gegenstand mit allen Informationen editieren - features/examples/gegenstand_editieren.feature:200
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:178
+- name: Einen Gegenstand mit allen Informationen editieren - features/examples/gegenstand_editieren.feature:185
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:200
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:185
+- name: Einen Gegenstand mit allen Informationen editieren - features/examples/gegenstand_editieren.feature:209
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/gegenstand_editieren.feature:209
 - name: Felder beim Erstellen eines Gegenstandes - features/examples/gegenstand_erstellen.feature:6
   scripts:
     cucumber:
@@ -1085,22 +1090,22 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:10
-- name: Den ersten Gerätepark erstellen - features/examples/geraetepark_administrieren.feature:18
+- name: Den ersten Gerätepark erstellen - features/examples/geraetepark_administrieren.feature:19
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:18
-- name: Pflichtfelder beim erstmaligen Erstellen eines Geräteparks - features/examples/geraetepark_administrieren.feature:28
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:19
+- name: Pflichtfelder beim erstmaligen Erstellen eines Geräteparks - features/examples/geraetepark_administrieren.feature:29
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:28
-- name: Gerätepark ändern - features/examples/geraetepark_administrieren.feature:43
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:29
+- name: Gerätepark ändern - features/examples/geraetepark_administrieren.feature:44
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:43
-- name: Gerätepark löschen - features/examples/geraetepark_administrieren.feature:51
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:44
+- name: Gerätepark löschen - features/examples/geraetepark_administrieren.feature:52
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:51
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/geraetepark_administrieren.feature:52
 - name: Grundinformationen erfassen - features/examples/geraetepark_grundinformationen.feature:10
   scripts:
     cucumber:
@@ -1230,82 +1235,74 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:21
-- name: 'Auswahlmöglichkeiten: Alle-Tab - features/examples/inventar.feature:39'
+- name: 'Auswahlmöglichkeiten: Modell-Tab - features/examples/inventar.feature:101'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:39
-- name: 'Auswahlmöglichkeiten: Modell-Tab - features/examples/inventar.feature:45'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:101
+- name: 'Auswahlmöglichkeiten: Optionen-Tab - features/examples/inventar.feature:107'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:45
-- name: 'Auswahlmöglichkeiten: Optionen-Tab - features/examples/inventar.feature:51'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:107
+- name: 'Auswahlmöglichkeiten: Software-Tab - features/examples/inventar.feature:113'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:51
-- name: 'Auswahlmöglichkeiten: Software-Tab - features/examples/inventar.feature:57'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:113
+- name: 'Auswahlmöglichkeiten: genutzt & ungenutzt - features/examples/inventar.feature:119'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:57
-- name: 'Auswahlmöglichkeiten: genutzt & ungenutzt - features/examples/inventar.feature:63'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:119
+- name: 'Auswahlmöglichkeiten: ausleihbar & nicht ausleihbar - features/examples/inventar.feature:129'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:63
-- name: 'Auswahlmöglichkeiten: ausleihbar & nicht ausleihbar - features/examples/inventar.feature:73'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:129
+- name: 'Auswahlmöglichkeiten: ausgemustert & nicht ausgemustert - features/examples/inventar.feature:139'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:73
-- name: 'Auswahlmöglichkeiten: ausgemustert & nicht ausgemustert - features/examples/inventar.feature:83'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:139
+- name: 'Auswahlmöglichkeiten: Checkboxen - features/examples/inventar.feature:149'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:83
-- name: 'Auswahlmöglichkeiten: Checkboxen - features/examples/inventar.feature:93'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:149
+- name: 'Auswahlmöglichkeiten: verantwortliche Abteilung - features/examples/inventar.feature:161'
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:93
-- name: 'Auswahlmöglichkeiten: verantwortliche Abteilung - features/examples/inventar.feature:105'
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:161
+- name: Default-Filter "nicht ausgemustert" - features/examples/inventar.feature:167
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:105
-- name: Default-Filter "nicht ausgemustert" - features/examples/inventar.feature:111
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:167
+- name: Grundeinstellung der Listenansicht - features/examples/inventar.feature:174
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:111
-- name: Grundeinstellung der Listenansicht - features/examples/inventar.feature:118
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:174
+- name: Grundeinstellung der Listenansicht - features/examples/inventar.feature:178
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:118
-- name: Grundeinstellung der Listenansicht - features/examples/inventar.feature:122
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:178
+- name: Aussehen einer Options-Zeile - features/examples/inventar.feature:200
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:122
-- name: Aussehen einer Options-Zeile - features/examples/inventar.feature:144
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:200
+- name: Paket-Modelle aufklappen - features/examples/inventar.feature:209
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:144
-- name: Paket-Modelle aufklappen - features/examples/inventar.feature:153
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:209
+- name: Aussehen einer Modell-Zeile - features/examples/inventar.feature:218
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:153
-- name: Aussehen einer Modell-Zeile - features/examples/inventar.feature:162
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:218
+- name: Aussehen einer Software-Lizenz-Zeile - features/examples/inventar.feature:250
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:162
-- name: Aussehen einer Gegenstands-Zeile - features/examples/inventar.feature:172
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:250
+- name: Keine Resultate auf der Liste des Inventars - features/examples/inventar.feature:286
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:172
-- name: Aussehen einer Software-Lizenz-Zeile - features/examples/inventar.feature:193
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:286
+- name: Modell aufklappen - features/examples/inventar.feature:291
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:193
-- name: Keine Resultate auf der Liste des Inventars - features/examples/inventar.feature:229
-  scripts:
-    cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:229
-- name: Modell aufklappen - features/examples/inventar.feature:234
-  scripts:
-    cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:234
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:291
 - name: Globaler Export des Inventars aller Geräteparks - features/examples/inventar_csv.feature:6
   scripts:
     cucumber:
@@ -1419,10 +1416,6 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/kategorien.feature:77
-- name: Kategorien erstellen - features/examples/kategorien.feature:81
-  scripts:
-    cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/kategorien.feature:81
 - name: Eigenschaften erstellen - features/examples/model_eigenschaften.feature:9
   scripts:
     cucumber:
@@ -2363,6 +2356,14 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/manage/navigation.feature:15
+- name: Aufklappen der Geraeteparkauswahl und Wechsel des Geraeteparks - features/manage/navigation.feature:23
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/manage/navigation.feature:23
+- name: Zuklappen der Geraeteparkauswahl - features/manage/navigation.feature:31
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/manage/navigation.feature:31
 - name: Take back all items of a contract - features/manage/take_back/close_contract.feature:11
   scripts:
     cucumber:
