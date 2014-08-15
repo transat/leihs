@@ -23,11 +23,6 @@ contexts:
 
   tasks:
 
-    - name: All spects are tested?
-      scripts:
-        main: 
-          body: cider-ci/bin/all_specs_tested.rb
-
     - name: All features are tested?
       scripts:
         main: 
