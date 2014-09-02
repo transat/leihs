@@ -106,7 +106,7 @@ Funktionalität: Modell
     Und es wurden auch alle Anhängsel gelöscht
 
   # CI-ISSUE: cannot be reproduced locally
-  @javascript @personas @current
+  @javascript @personas
   Szenario: Modelldetails bearbeiten
     Wenn ich ein bestehendes, genutztes Modell bearbeite
     Und ich ändere die folgenden Details

@@ -1,8 +1,4 @@
 ---
-- name: "@@@ Current Iteration @@@"
-  scripts:
-    cucumber:
-      body: bundle exec cucumber -p current
 - name: Verwalten-Bereich sperren - features/administration/wartungsmodus.feature:12
   scripts:
     cucumber:
@@ -461,6 +457,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/borrow/sprache.feature:10
+- name: Startseite - features/borrow/startseite.feature:10
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/borrow/startseite.feature:10
 - name: Haupt-Kategorien aufklappen - features/borrow/startseite.feature:21
   scripts:
     cucumber:
@@ -1296,10 +1296,18 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:177
+- name: Inhalt der Auswahl "Software" - features/examples/inventar.feature:181
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:181
 - name: Grundeinstellung der Listenansicht - features/examples/inventar.feature:186
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:186
+- name: Inhalt der Auswahl "Software" - features/examples/inventar.feature:190
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:190
 - name: Grundeinstellung der Listenansicht - features/examples/inventar.feature:195
   scripts:
     cucumber:
@@ -1332,6 +1340,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:289
+- name: Verhalten nach Speichern - features/examples/inventar.feature:296
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/inventar.feature:296
 - name: Auszeichnung von defekten, ausgemusterten, unvollständigen oder nicht ausleihbaren
     Gegenstandszeilen - features/examples/inventar.feature:304
   scripts:
@@ -1522,6 +1534,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/modell.feature:92
+- name: Modelldetails bearbeiten - features/examples/modell.feature:110
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/modell.feature:110
 - name: Attachments erstellen - features/examples/modell.feature:125
   scripts:
     cucumber:
@@ -1777,6 +1793,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/software_erfassen.feature:102
+- name: Software-Lizenz Anschaffungswert mit 2 Dezimalstellen erfassen - features/examples/software_erfassen.feature:127
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/software_erfassen.feature:127
 - name: Software kopieren - features/examples/software_kopieren.feature:9
   scripts:
     cucumber:
@@ -1928,6 +1948,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/vertrag.feature:79
+- name: Inhalt der Liste 1 und Liste 2 - features/examples/vertrag.feature:85
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/examples/vertrag.feature:85
 - name: Rücknehmende Person - features/examples/vertrag.feature:99
   scripts:
     cucumber:
@@ -2338,6 +2362,11 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/manage/hand_over/assign.feature:11
+- name: Assign an inventory code by providing an inventory code of an item and a set
+    of selected lines - features/manage/hand_over/assign.feature:20
+  scripts:
+    cucumber:
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/manage/hand_over/assign.feature:20
 - name: Remove the assignment of an inventory code by clear the the inventory code
     input - features/manage/hand_over/assign.feature:28
   scripts:

@@ -177,7 +177,7 @@ Funktionalität: Inventar
   Szenario: Grundeinstellung der Listenansicht
     Dann ist die Auswahl "Alle" aktiviert
 
-  @personas @current
+  @personas
   Szenario: Inhalt der Auswahl "Software"
     Dann enthält die Auswahl "Software" Software und Software-Lizenzen
     Und der Filter "Nicht Ausgemustert" ist aktiviert
@@ -186,7 +186,7 @@ Funktionalität: Inventar
   Szenario: Grundeinstellung der Listenansicht
     Dann ist die Auswahl "Alle" aktiviert
 
-  @personas @current
+  @personas
   Szenario: Inhalt der Auswahl "Software"
     Dann enthält die Auswahl "Software" Software und Software-Lizenzen
     Und der Filter "Nicht Ausgemustert" ist aktiviert
@@ -292,7 +292,7 @@ Funktionalität: Inventar
     Und so eine Zeile sieht aus wie eine Gegenstands-Zeile
 
   #73278620
-  @current @personas
+   @personas
   Szenario: Verhalten nach Speichern
     Wenn ich einen Reiter auswähle
     Und ich eine oder mehrere Filtermöglichkeiten verwende
