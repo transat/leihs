@@ -1,4 +1,3 @@
-#### Quickly list missing foreign key indexes
 #### source: https://tomafro.net/2009/09/quickly-list-missing-foreign-key-indexes
 #
 #c = ActiveRecord::Base.connection
@@ -14,7 +13,7 @@
 class Admin::DatabaseController < Admin::ApplicationController
 
   def indexes
-    connection = ActiveRecord::Base.connection
+    @connection = ActiveRecord::Base.connection
 
     @indexes_found, @indexes_not_found = begin
       [
@@ -51,7 +50,7 @@ class Admin::DatabaseController < Admin::ApplicationController
         ["histories", ["user_id"]],
         ["holidays", ["inventory_pool_id"]],
         ["holidays", ["start_date", "end_date"]],
-        ["images", ["model_id"]],
+        ["images", ["target_id", "target_type"]],
         ["inventory_pools", ["name"], :unique => true],
         ["inventory_pools_model_groups", ["inventory_pool_id"]],
         ["inventory_pools_model_groups", ["model_group_id"]],
@@ -86,7 +85,7 @@ class Admin::DatabaseController < Admin::ApplicationController
         ["users", ["authentication_system_id"]],
         ["workdays", ["inventory_pool_id"]]
       ].partition do |table, columns, options|
-          indexes = connection.indexes(table)
+          indexes = @connection.indexes(table)
           index = indexes.detect {|x| x.columns == columns}
           if not index
             false
@@ -100,28 +99,44 @@ class Admin::DatabaseController < Admin::ApplicationController
   end
 
   def consistency
-    flash[:error] = _("This report is not complete yet! Additional checks are coming soon...")
-    @missing_references = {
-        "items with missing model" => Item.unscoped.joins("LEFT JOIN models AS x ON items.model_id = x.id").where(x: {id: nil}),
-        "items with missing parent item" => Item.unscoped.joins("LEFT JOIN items AS x ON items.parent_id = x.id").where(x: {id: nil}).where("items.parent_id IS NOT NULL"),
-        "items with missing owner inventory_pool" => Item.unscoped.joins("LEFT JOIN inventory_pools AS x ON items.owner_id = x.id").where(x: {id: nil}),
-        "items with missing responsible inventory_pool" => Item.unscoped.joins("LEFT JOIN inventory_pools AS x ON items.inventory_pool_id = x.id").where(x: {id: nil}).where("items.inventory_pool_id IS NOT NULL"),
+    @missing_references = {}
+    def left_join_query(klass, other_table, this_table, this_id, other_id, additional_where = nil)
+      r = klass.unscoped.
+            joins("LEFT JOIN %s AS t2 ON %s.%s = t2.%s" % [other_table, this_table, this_id, other_id]).
+            where.not(this_id => nil).
+            where(t2: {other_id => nil})
+      r = r.where(additional_where) if additional_where
+      unless r.empty?
+        @missing_references["%s with missing %s" % [this_table, other_table.singularize]] = r
+        # @missing_references[r.to_sql] = r
+      end
+    end
 
-        "contracts with missing inventory_pool" => Contract.unscoped.joins("LEFT JOIN inventory_pools AS x ON contracts.inventory_pool_id = x.id").where(x: {id: nil}),
-        "contracts with missing user" => Contract.unscoped.joins("LEFT JOIN users AS x ON contracts.user_id = x.id").where(x: {id: nil}),
+    if Rails.env.development?
+      Rails.application.eager_load!
+    end
+    ActiveRecord::Base.subclasses.each do |klass|
+      klass.reflect_on_all_associations(:belongs_to).each do |ref|
+        if ref.polymorphic?
+          klass.unscoped.group(:target_type).map(&:target_type).flat_map do |target_type|
+            target_klass = target_type.constantize
+            left_join_query(klass, target_klass.table_name, klass.table_name, ref.foreign_key, target_klass.primary_key, {target_type: target_type})
+          end
+        else
+          left_join_query(klass, ref.table_name, klass.table_name, ref.foreign_key, ref.primary_key_column.name)
+        end
+      end
+    end
 
-        "item_lines with missing item" => ItemLine.unscoped.joins("LEFT JOIN items AS x ON contract_lines.item_id = x.id").where(x: {id: nil}).where("contract_lines.item_id IS NOT NULL"),
-        "option_lines with missing option" => OptionLine.unscoped.joins("LEFT JOIN options AS x ON contract_lines.option_id = x.id").where(x: {id: nil})
-    }
   end
 
   def empty_columns
-    connection = ActiveRecord::Base.connection
+    @connection = ActiveRecord::Base.connection
 
     @empty_columns = {}
-    connection.tables.each do |table_name|
-      connection.columns(table_name).select{|c| c.type == :string and c.null }.each do |column|
-        r = connection.execute(%Q(SELECT * FROM `#{table_name}` WHERE `#{column.name}` REGEXP '^\ *$')).to_a
+    @connection.tables.each do |table_name|
+      @connection.columns(table_name).select{|c| c.type == :string and c.null }.each do |column|
+        r = @connection.execute(%Q(SELECT * FROM `#{table_name}` WHERE `#{column.name}` REGEXP '^\ *$')).to_a
         next if r.empty?
         @empty_columns[[table_name, column.name]] = r
       end
