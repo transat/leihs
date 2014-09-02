@@ -38,3 +38,9 @@ end
 When "I beam back into the present" do
   back_to_the_present
 end
+
+Given(/^today corresponds to the start date of the order$/) do
+  if @contract
+    back_to_the_future @contract.min_date
+  end
+end
