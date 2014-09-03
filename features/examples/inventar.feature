@@ -247,6 +247,7 @@ Funktionalität: Inventar
   @javascript @personas @firefox
   Szenario: Aussehen einer Software-Lizenz-Zeile
     Angenommen es gibt eine Software-Lizenz
+    Und ich sehe ausgemustertes und nicht ausgemustertes Inventar
     Wenn ich diese Lizenz in der Softwareliste anschaue
     Dann enthält die Software-Lizenz-Zeile folgende Informationen:
       | information    |

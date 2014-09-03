@@ -126,13 +126,13 @@ When /^I assign an inventory code the item line$/ do
   item = @current_inventory_pool.items.in_stock.where(model_id: @item_line.model).first
   expect(item).not_to be nil
   @selected_items ||= []
-  @selected_items << item
   within(".line[data-id='#{@item_line.id}']") do
     find("input[data-assign-item]").set item.inventory_code
     find("a.ui-corner-all", text: item.inventory_code)
     find("input[data-assign-item]").native.send_key(:enter)
   end
-  sleep(0.33)
+  line_selected = first(".line[data-id='#{@item_line.id}'].green")
+  @selected_items << item if line_selected
 end
 
 Then /^wird die Adresse des Verleihers aufgeführt$/ do
