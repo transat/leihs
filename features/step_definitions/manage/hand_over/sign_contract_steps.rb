@@ -17,6 +17,7 @@ When /^I open a hand over( with at least one unassigned line for today)?( with o
   raise "customer not found" unless @customer
   visit manage_hand_over_path(@current_inventory_pool, @customer)
   expect(has_selector?("#hand-over-view", :visible => true)).to be true
+  @contract = @customer.contracts.approved.first
 end
 
 When /^I select (an item|a license) line and assign an inventory code$/ do |arg1|
@@ -50,6 +51,7 @@ Then /^I see a summary of the things I selected for hand over$/ do
 end
 
 When /^I click hand over$/ do
+  expect(page).to have_no_selector ".button[data-hand-over-selection][disabled]"
   find(".button[data-hand-over-selection]").click
 end
 
