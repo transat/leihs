@@ -80,7 +80,7 @@ Dann(/^die Zeile wird selektiert|wird die Zeile selektiert$/) do
 end
 
 Dann(/^die Zeile wird grün markiert|wird die Zeile grün markiert$/) do
-  find(@line_css).native.attribute("class").should include "green"
+  expect(find(@line_css).native.attribute("class")).to include "green"
 end
 
 Wenn(/^ich die Zeile deselektiere$/) do

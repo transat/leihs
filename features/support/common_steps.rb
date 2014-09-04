@@ -43,4 +43,5 @@ Given(/^today corresponds to the start date of the order$/) do
   if @contract
     back_to_the_future @contract.min_date
   end
+  visit current_path # reload the page in order to travel in time also in browser
 end
