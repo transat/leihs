@@ -199,9 +199,8 @@ end
 
 Given(/^a line has no item assigned yet and this line is marked$/) do
   step "I can add models"
-  @contract_line = @hand_over.lines.find {|l| not l.item }
+  @contract_line = @hand_over.lines.order(created_at: :desc).first
   @line_css = ".line[data-id='#{@contract_line.id}']"
-  step "ich die Zeile wieder selektiere"
 end
 
 Given(/^a line with an assigned item which doesn't have a location is marked$/) do
