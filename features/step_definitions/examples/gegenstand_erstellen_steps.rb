@@ -55,8 +55,8 @@ Wenn /^ich die folgenden Informationen erfasse$/ do |table|
     matched_field = all(".row.emboss", match: :prefer_exact, text: field_name).last
     case field_type
       when "radio", "radio must"
-        field_value = true if field_value == "OK"
-        matched_field.find("input[value='#{field_value}']").set true
+        #field_value = true if field_value == "OK"
+        matched_field.find("label", text: field_value).find("input").set true
       when "checkbox"
         matched_field.find("input").set (field_value == "checked")
       when "select"
