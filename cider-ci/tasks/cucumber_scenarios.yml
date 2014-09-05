@@ -35,23 +35,23 @@
   scripts:
     cucumber:
       body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/automatischer_email_versand.feature:14
-- name: Basic - features/availability_inventory_pool_story.feature:10
+- name: Basic - features/availability_inventory_pool_story.feature:9
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:10
-- name: Items available in different pools - features/availability_inventory_pool_story.feature:23
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:9
+- name: Items available in different pools - features/availability_inventory_pool_story.feature:21
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:23
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:21
 - name: Customer orders the same item multiple times, thus exceeding maximum quantity
-    - features/availability_inventory_pool_story.feature:69
+    - features/availability_inventory_pool_story.feature:64
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:69
-- name: Customer can decide from which pool he orders - features/availability_inventory_pool_story.feature:80
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:64
+- name: Customer can decide from which pool he orders - features/availability_inventory_pool_story.feature:74
   scripts:
     cucumber:
-      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:80
+      body: bundle exec cucumber -p default -f json -o log/cucumber_report.json features/availability_inventory_pool_story.feature:74
 - name: No reservations - features/availability_story.feature:15
   scripts:
     cucumber:
