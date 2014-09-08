@@ -103,7 +103,7 @@ class Admin::DatabaseController < Admin::ApplicationController
 
     @missing_references = {}
 
-    def left_join_query(klass, other_table, this_table, this_column, other_column, additional_where = nil)
+    def left_join_query(klass, other_table, this_table, this_column, other_column, additional_where = nil, polymorphic = false)
       # NOTE we skip references on sql-views
       return if not @only_tables_no_views.include?(this_table) or not @only_tables_no_views.include?(other_table)
 
@@ -113,8 +113,9 @@ class Admin::DatabaseController < Admin::ApplicationController
           where(t2: {other_column => nil})
       r = r.where(additional_where) if additional_where
       unless r.empty?
-        @missing_references["%s with missing %s" % [this_table, other_table.singularize]] = r
-        # @missing_references[r.to_sql] = r
+        l = "%s with missing %s" % [this_table, other_table.singularize]
+        l += " (polymorphic association)" if polymorphic
+        @missing_references[l] = r
       end
     end
 
@@ -124,9 +125,10 @@ class Admin::DatabaseController < Admin::ApplicationController
       klass.reflect_on_all_associations(:belongs_to).each do |ref|
         if ref.polymorphic?
           # NOTE we cannot define foreign keys on multiple parent tables
-          klass.unscoped.group(:target_type).map(&:target_type).flat_map do |target_type|
+          type_column = "#{ref.name}_type".to_sym
+          klass.unscoped.group(type_column).map(&type_column).flat_map do |target_type|
             target_klass = target_type.constantize
-            left_join_query(klass, target_klass.table_name, klass.table_name, ref.foreign_key, target_klass.primary_key, {target_type: target_type})
+            left_join_query(klass, target_klass.table_name, klass.table_name, ref.foreign_key, target_klass.primary_key, {type_column => target_type}, true)
           end
         else
           left_join_query(klass, ref.table_name, klass.table_name, ref.foreign_key, ref.primary_key_column.name)

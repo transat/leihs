@@ -30,7 +30,7 @@ end
 Dann /^ist die Kategorie mit dem angegegebenen Namen erstellt$/ do
   find("#categories-index-view h1", text: _("List of Categories"))
   expect(current_path).to eq manage_categories_path(@current_inventory_pool)
-  ModelGroup.where(name: "#{@new_category_name}").count.should eql 1
+  expect(ModelGroup.where(name: "#{@new_category_name}").count).to eq 1
 end
 
 Dann /^ist die Kategorie mit dem angegegebenen Namen und den zugewiesenen Elternelementen( und dem Bild)? erstellt$/ do |image|
@@ -38,7 +38,7 @@ Dann /^ist die Kategorie mit dem angegegebenen Namen und den zugewiesenen Eltern
   expect(current_path).to eq manage_categories_path(@current_inventory_pool)
   @category = Category.find_by_name "#{@new_category_name}"
   expect(@category).not_to be_nil
-  ModelGroupLink.where("ancestor_id = ? AND label = ?", @parent_category.id, @label_1).count.should eql 1
+  expect(ModelGroupLink.where("ancestor_id = ? AND label = ?", @parent_category.id, @label_1).count).to eq 1
   if image
     expect(@category.images.count).to eq 1
   end
@@ -85,7 +85,7 @@ Dann /^werden die Werte gespeichert$/ do
   expect(current_path).to eq manage_categories_path(@current_inventory_pool)
   @category.reload
   @category.name.should eql @new_category_name
-  @category.links_as_child.count.should eql 2
+  expect(@category.links_as_child.count).to eq 2
   @category.links_as_child.map(&:label).to_set.should eql @parent_category_labels.to_set
 end
 
@@ -174,7 +174,7 @@ end
 Dann /^ist die Kategorie gelöscht und alle Duplikate sind aus dem Baum entfernt$/ do
   sleep(0.33)
   expect(all("#categories-index-view .line[data-id='#{@unused_category.id}']").empty?).to be true
-  lambda{@unused_category.reload}.should raise_error
+  expect { @unused_category.reload }.to raise_error
 end
 
 Dann /^man bleibt in der Liste der Kategorien$/ do
