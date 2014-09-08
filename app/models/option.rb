@@ -11,7 +11,7 @@ class Option < ActiveRecord::Base
 
   belongs_to :inventory_pool
 
-  has_many :option_lines
+  has_many :option_lines, dependent: :restrict_with_exception
 
   validates_presence_of :inventory_pool, :product
   validates_uniqueness_of :inventory_code, :scope => :inventory_pool_id, :unless => Proc.new { |record| record.inventory_code.blank? }
