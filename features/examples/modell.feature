@@ -201,7 +201,7 @@ Funktionalität: Modell
     Dann wurden die ausgewählten Bilder für dieses Modell gespeichert
     Und zu grosse Bilder werden den erlaubten Grössen entsprechend verkleinert
 
-  @javascript @personas
+  @javascript @personas @firefox
   Szenario: Bilder
     Wenn ich ein bestehendes, genutztes Modell bearbeite
     Dann kann ich mehrere Bilder hinzufügen

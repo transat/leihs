@@ -65,7 +65,6 @@ Wenn(/^ich dem nicht problematischen Modell einen Inventarcode zuweise$/) do
   @line_css = ".line[data-id='#{@contract_line.id}']"
   within @line_css do
     find("input[data-assign-item]").click
-    sleep(1.66)
     find("li.ui-menu-item a", match: :first).click
   end
 end
