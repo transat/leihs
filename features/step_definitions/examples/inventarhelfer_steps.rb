@@ -63,7 +63,7 @@ Dann /^ich setze all ihre Initalisierungswerte$/ do
         find("a.ui-corner-all", match: :first).click
         @data[field[:id]] = find(".field[data-id='#{field[:id]}'] [data-type='autocomplete']")
       when "autocomplete-search"
-        model = if @item.children.exists? # item is a package
+        model = if @item and @item.children.exists? # item is a package
                   Model.all.find &:is_package?
                 else
                   Model.all.find {|m| not m.is_package?}
