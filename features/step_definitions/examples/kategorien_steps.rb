@@ -84,9 +84,9 @@ Dann /^werden die Werte gespeichert$/ do
   find("#categories-index-view h1", text: _("List of Categories"))
   expect(current_path).to eq manage_categories_path(@current_inventory_pool)
   @category.reload
-  @category.name.should eql @new_category_name
+  expect(@category.name).to eq @new_category_name
   expect(@category.links_as_child.count).to eq 2
-  @category.links_as_child.map(&:label).to_set.should eql @parent_category_labels.to_set
+  expect(@category.links_as_child.map(&:label).to_set).to eq @parent_category_labels.to_set
 end
 
 Und /^die Kategorien sind alphabetisch sortiert$/ do
@@ -99,7 +99,7 @@ Und /^die Kategorien sind alphabetisch sortiert$/ do
 end
 
 Und /^die erste Ebene steht zuoberst$/ do
-  @visible_categories.count.should eq @parent_categories.count
+  expect(@visible_categories.count).to eq @parent_categories.count
 end
 
 Und /^man kann die Unterkategorien anzeigen und verstecken$/ do
@@ -139,7 +139,7 @@ end
 
 Dann /^sind die Kategorien zugeteilt$/ do
   sleep(0.33) # fix lazy request problem
-  @model.model_groups.where(id: @category.id).count.should eq 1
+  expect(@model.model_groups.where(id: @category.id).count).to eq 1
 end
 
 Wenn /^ich eine oder mehrere Kategorien entferne$/ do
