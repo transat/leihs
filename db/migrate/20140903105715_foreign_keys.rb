@@ -17,7 +17,7 @@ class ForeignKeys < ActiveRecord::Migration
     add_foreign_key(:contracts, :users, column: 'handed_over_by_user_id')
     add_foreign_key(:database_authentications, :users, dependent: :delete)
     add_foreign_key(:groups, :inventory_pools)
-    add_foreign_key(:histories, :users, dependent: :delete)
+    add_foreign_key(:histories, :users)
     add_foreign_key(:holidays, :inventory_pools, dependent: :delete)
     add_foreign_key(:inventory_pools, :addresses)
     add_foreign_key(:items, :inventory_pools)

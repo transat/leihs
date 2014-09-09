@@ -2,7 +2,7 @@ class Contract < ActiveRecord::Base
   include LineModules::GroupedAndMergedLines
   include Delegation::Contract
 
-  has_many :histories, -> { order(:created_at) }, :as => :target, :dependent => :destroy
+  has_many :histories, -> { order(:created_at) }, as: :target, dependent: :delete_all
   has_many :actions, -> { where("type_const = #{History::ACTION}").order(:created_at) }, :as => :target, :class_name => "History"
 
   belongs_to :inventory_pool, inverse_of: :contracts

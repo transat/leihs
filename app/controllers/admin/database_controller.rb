@@ -98,24 +98,33 @@ class Admin::DatabaseController < Admin::ApplicationController
     end
   end
 
+  def empty_columns
+    @empty_columns = {}
+    @connection.tables.each do |table_name|
+      @connection.columns(table_name).select { |c| c.type == :string and c.null }.each do |column|
+        r = @connection.execute(%Q(SELECT * FROM `#{table_name}` WHERE `#{column.name}` REGEXP '^\ *$')).to_a
+        next if r.empty?
+        @empty_columns[[table_name, column.name]] = r
+      end
+    end
+  end
+
   def consistency
     @only_tables_no_views = @connection.execute("SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'").to_h.keys
 
-    @missing_references = {}
+    @missing_references = []
 
-    def left_join_query(klass, other_table, this_table, this_column, other_column, additional_where = nil, polymorphic = false)
+    def collect_missing_references(klass, other_table, this_table, this_column, other_column, additional_where = nil, polymorphic = false, dependent = nil)
       # NOTE we skip references on sql-views
       return if not @only_tables_no_views.include?(this_table) or not @only_tables_no_views.include?(other_table)
 
-      r = klass.unscoped.
-          joins("LEFT JOIN %s AS t2 ON %s.%s = t2.%s" % [other_table, this_table, this_column, other_column]).
-          where.not(this_column => nil).
-          where(t2: {other_column => nil})
-      r = r.where(additional_where) if additional_where
+      r = left_join_query(klass, other_table, this_table, this_column, other_column, additional_where)
       unless r.empty?
-        l = "%s with missing %s" % [this_table, other_table.singularize]
-        l += " (polymorphic association)" if polymorphic
-        @missing_references[l] = r
+        @missing_references << {from: this_table,
+                                to: other_table,
+                                values: r,
+                                polymorphic: polymorphic,
+                                dependent: dependent}
       end
     end
 
@@ -128,10 +137,21 @@ class Admin::DatabaseController < Admin::ApplicationController
           type_column = "#{ref.name}_type".to_sym
           klass.unscoped.group(type_column).map(&type_column).flat_map do |target_type|
             target_klass = target_type.constantize
-            left_join_query(klass, target_klass.table_name, klass.table_name, ref.foreign_key, target_klass.primary_key, {type_column => target_type}, true)
+            inverse_of = target_klass.reflect_on_association(klass.name.underscore.pluralize.to_sym)
+            dependent = if inverse_of and inverse_of.options[:dependent]
+                          inverse_of.options[:dependent]
+                        else
+                          nil
+                        end
+            collect_missing_references(klass, target_klass.table_name, klass.table_name, ref.foreign_key, target_klass.primary_key, {type_column => target_type}, true, dependent)
           end
         else
-          left_join_query(klass, ref.table_name, klass.table_name, ref.foreign_key, ref.primary_key_column.name)
+          dependent = if ref.inverse_of and ref.inverse_of.options[:dependent]
+                        ref.inverse_of.options[:dependent]
+                      else
+                        nil
+                      end
+          collect_missing_references(klass, ref.table_name, klass.table_name, ref.foreign_key, ref.primary_key_column.name, nil, false, dependent)
         end
       end
     end
@@ -139,26 +159,65 @@ class Admin::DatabaseController < Admin::ApplicationController
     ActiveRecord::Base.descendants.each do |klass|
       klass.reflect_on_all_associations(:has_and_belongs_to_many).each do |ref|
         r = klass.unscoped.
-              joins("INNER JOIN %s AS t2 ON %s.%s = t2.%s" % [ref.join_table, klass.table_name, ref.primary_key_column.name, ref.foreign_key]).
-              joins("LEFT JOIN %s AS t3 ON t2.%s = t3.%s" % [ref.klass.table_name, ref.association_foreign_key, ref.association_primary_key]).
-              where(t3: {ref.association_primary_key => nil})
+            joins("INNER JOIN %s AS t2 ON %s.%s = t2.%s" % [ref.join_table, klass.table_name, ref.primary_key_column.name, ref.foreign_key]).
+            joins("LEFT JOIN %s AS t3 ON t2.%s = t3.%s" % [ref.klass.table_name, ref.association_foreign_key, ref.association_primary_key]).
+            where(t3: {ref.association_primary_key => nil})
         unless r.empty?
-          @missing_references["%s with missing %s (through %s join table)" % [klass.table_name, ref.klass.table_name, ref.join_table]] = r
+          @missing_references << {from: klass.table_name,
+                                  to: ref.klass.table_name,
+                                  join_table: ref.join_table,
+                                  values: r,
+                                  polymorphic: false,
+                                  dependent: nil}
         end
       end
     end
 
   end
 
-  def empty_columns
-    @empty_columns = {}
-    @connection.tables.each do |table_name|
-      @connection.columns(table_name).select { |c| c.type == :string and c.null }.each do |column|
-        r = @connection.execute(%Q(SELECT * FROM `#{table_name}` WHERE `#{column.name}` REGEXP '^\ *$')).to_a
-        next if r.empty?
-        @empty_columns[[table_name, column.name]] = r
-      end
+  def fix_consistency
+    klass = params[:from].classify.constantize
+    ref = klass.reflect_on_association(params[:to].singularize.to_sym)
+    if ref
+      other_table = ref.table_name
+      other_column = ref.primary_key_column.name
+    else
+      # is polymorphic
+      target_klass = params[:to].classify.constantize
+      inverse_ref = target_klass.reflect_on_association(klass.name.underscore.pluralize.to_sym)
+      ref = klass.reflect_on_association(inverse_ref.options[:as])
+      other_table = target_klass.table_name
+      other_column = target_klass.primary_key
+      type_column = "#{ref.name}_type".to_sym
+      additional_where = {type_column => target_klass.name}
     end
+    this_table = klass.table_name
+    this_column = ref.foreign_key
+
+    r = left_join_query(klass, other_table, this_table, this_column, other_column, additional_where)
+
+    case params[:dependent].to_sym
+      when :delete_all
+        r.delete_all
+      when :destroy
+        r.readonly(false).destroy_all
+      when :nullify
+        r.update_all(this_column => nil)
+      else
+        # TODO
+    end
+    redirect_to admin_consistency_path
+  end
+
+  private
+
+  def left_join_query(klass, other_table, this_table, this_column, other_column, additional_where)
+    r = klass.unscoped.
+        joins("LEFT JOIN %s AS t2 ON %s.%s = t2.%s" % [other_table, this_table, this_column, other_column]).
+        where.not(this_column => nil).
+        where(t2: {other_column => nil})
+    r = r.where(additional_where) if additional_where
+    r
   end
 
 end

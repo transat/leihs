@@ -42,8 +42,9 @@ Leihs::Application.routes.draw do
 
     # Database Check
     get "database/indexes", to: "database#indexes"
-    get "database/consistency", to: "database#consistency"
     get "database/empty_columns", to: "database#empty_columns"
+    get "database/consistency", to: "database#consistency", as: "consistency"
+    post "database/fix_consistency", to: "database#fix_consistency", as: "fix_consistency"
 
     # Test report
     get "scenarios", to: "scenarios#index"
