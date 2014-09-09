@@ -16,7 +16,7 @@ Dann /^sehe ich die Verfügbarkeit von Modellen auch an Feier\- und Ferientagen 
 end
 
 Angenommen /^ich öffne den Kalender$/ do
-  @line_el = find(".line", match: :first)
+  @line_el = find(".line[data-line-type='item_line']", match: :first)
   id = @line_el["data-id"] || JSON.parse(@line_el["data-ids"]).first
   @line = ContractLine.find_by_id id
   @line_el.find(".multibutton .button[data-edit-lines]", :text => _("Change entry")).click
