@@ -131,10 +131,10 @@ Before do
     case @use_browser
       when :firefox
         Capybara.current_driver = :selenium_firefox
-        page.driver.browser.manage.window.maximize # to prevent Selenium::WebDriver::Error::MoveTargetOutOfBoundsError: Element cannot be scrolled into view
       when :chrome
         Capybara.current_driver = :selenium_chrome
     end
+    page.driver.browser.manage.window.maximize # to prevent Selenium::WebDriver::Error::MoveTargetOutOfBoundsError: Element cannot be scrolled into view
   elsif @use_phantomjs
     Capybara.current_driver = :selenium_phantomjs
   end
