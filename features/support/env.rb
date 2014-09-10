@@ -111,7 +111,7 @@ Before('@browser') do
                    when "firefox"
                      :firefox
                    else
-                     @use_browser || ENV['DEFAULT_BROWSER'] || :firefox
+                     @use_browser || ENV['DEFAULT_BROWSER'].try(:to_sym) || :firefox
                  end
 end
 
@@ -153,7 +153,7 @@ end
 ##################################################################################
 
 After do
-  if @use_browser
+  if @use_browser and @use_browser == :firefox
     errors = page.execute_script("return window.JSErrorCollector_errors.pump()")
     if errors.any?
       puts '-------------------------------------------------------------'
